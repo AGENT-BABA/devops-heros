@@ -2,8 +2,8 @@
 
 ## Student Details
 
-- **Name:** Shreyas S
-- **Enrollment Number:** DEV-2026-10401
+- **Name:** Krushna Sonawane
+- **Enrollment Number:** DEV-2026-10464
 - **Course:** DevOps Engineering & Containerization
 
 ---
