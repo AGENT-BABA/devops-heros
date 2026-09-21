@@ -1,11 +1,11 @@
 # Build Stage
-FROM openjdk:17-slim AS builder
+FROM eclipse-temurin:17-jdk-alpine AS builder
 WORKDIR /app
 COPY Main.java .
 RUN javac Main.java
 
 # Runtime Stage
-FROM openjdk:17-slim
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 COPY --from=builder /app/*.class .
 EXPOSE 8080
