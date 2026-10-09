@@ -85,6 +85,10 @@ nothing added to commit but untracked files present (use "git add" to track)
 
 *(Key Observation: `git commit -a -m` automatically staged and committed `tracked_file.txt`, but left `new_untracked_file.txt` untouched because it was untracked!)*
 
+#### Terminal Proof / Screenshot
+
+![git commit -a vs git commit -m Terminal Demonstration](./SS/commit-a-vs-commit-m.jpg)
+
 ---
 
 ## Task 2: Git Cherry-Pick Walkthrough
@@ -205,3 +209,7 @@ Feature 2 Content (Important Hotfix!)
 ```
 
 *(Verification Successful: The specific commit `d7c6b5a` was successfully cherry-picked into `main` without merging all other experimental feature branch commits!)*
+
+#### Terminal Proof / Screenshot
+
+![Git Cherry-Pick Terminal Demonstration](./SS/cherry-pick.jpg)

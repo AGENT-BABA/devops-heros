@@ -1,6 +1,6 @@
 # Session 11 — Kubernetes Services: The Complete Hands-On Lab
 
-> **"Pods come and go, but Services stay forever."**
+> **"Pods come and go, but Services stay forever."**  
 > This lab covers all 5 Kubernetes Service types, DNS deep-dives, manual Endpoints, and the fundamental difference between Deployments and StatefulSets.
 
 ---
@@ -17,14 +17,14 @@ The screenshot below shows all 5 Kubernetes Service types deployed simultaneousl
 | `external-database-service` | **ExternalName** | `<none>` | `nencyravaliya.me` | `<none>` | CNAME alias to external FQDN, no IPs involved |
 | `web-service-headless` | **ClusterIP (None)** | `None` | `<none>` | `80/TCP` | No VIP — DNS returns individual pod IPs directly |
 
-![All 5 Kubernetes Service Types — kubectl get svc output](image.png)
+![All 5 Kubernetes Service Types — kubectl get svc output](./image.png)
 
 ---
 
 ## Table of Contents
 
-| Task | Topic | Screenshot |
-|------|-------|------------|
+| Task | Topic | Screenshot Anchor |
+|------|-------|-------------------|
 | [Task 1](#task-1--kubernetes-port-architecture) | Port Architecture (the 4 ports) | [01-port-architecture](#screenshot-01) |
 | [Task 2](#task-2--clusterip-service-internal-only) | ClusterIP Service | [02-clusterip](#screenshot-02) |
 | [Task 3](#task-3--nodeport-service-external-ingress) | NodePort Service | [03-nodeport](#screenshot-03) |
@@ -57,10 +57,10 @@ Before touching any YAML, you must understand the **4 ports** involved in Kubern
 
 ### The 4 Ports
 
-```
+```text
 Client Browser
   |
-  v       outside the cluster: a host IP is needed
+  v       outside the cluster: host IP is needed
   [nodePort: 30080]   (open on every node, Service field)
   |
   v       inside the cluster: service VIP
@@ -92,7 +92,7 @@ kubectl explain service.spec.ports
 <a name="screenshot-01"></a>
 ### Screenshot — Port Architecture
 
-![Task 1 — Port Architecture](../screenshots/01-port-architecture.png)
+![Task 1 — Port Architecture](./SS/01-port-architecture/01-port-architecture.jpg)
 
 ---
 
@@ -150,9 +150,13 @@ kubectl exec curl-client -- curl -s http://web-service-clusterip.default.svc.clu
 - Both curl tests return `<title>Welcome to nginx!</title>`
 
 <a name="screenshot-02"></a>
-### Screenshot — ClusterIP VIP + Endpoints + Curl Tests
+### Screenshots — ClusterIP VIP + Endpoints + Curl Tests
 
-![Task 2 — ClusterIP Service](../screenshots/02-clusterip-vip-endpoints.png)
+#### 1. ClusterIP Verification & Endpoints
+![Task 2 — ClusterIP Service](./SS/02-cluster-vip-endpoint/02-cluster-vip-endpoint.jpg)
+
+#### 2. Internal Curl Test
+![Task 2 — ClusterIP Internal Curl](./SS/02-cluster-vip-endpoint/02-cluster-vip-endpoint_2.jpg)
 
 ---
 
@@ -186,7 +190,6 @@ kubectl get pods -l app=web-nodeport -o wide
 kubectl get svc web-service-nodeport
 
 # External access — curl from your host machine (outside the cluster)
-# Replace <MINIKUBE-IP> with output of: minikube ip
 curl http://$(minikube ip):30080
 ```
 
@@ -197,14 +200,14 @@ curl http://$(minikube ip):30080
 - **curl from host** returns HTTP 200 + `<title>Welcome to nginx!</title>`
 
 <a name="screenshot-03a"></a>
-### Screenshot A — Service Mapping (before external curl)
+### Screenshots — NodePort Service Mapping & External Curl
 
-![Task 3 — NodePort Service Mapping](../screenshots/03-nodeport-svc-mapping.png)
+#### 1. Service Mapping
+![Task 3 — NodePort Service Mapping](./SS/03-nodeport/03-nodeport-svc-mapping.jpg)
 
 <a name="screenshot-03"></a>
-### Screenshot B — External Curl Returns HTTP 200
-
-![Task 3 — NodePort HTTP 200](../screenshots/03-nodeport-http-200.png)
+#### 2. External Curl Returns HTTP 200
+![Task 3 — NodePort HTTP 200](./SS/03-nodeport/03-nodeport-http-200.jpg)
 
 ---
 
@@ -254,14 +257,14 @@ kubectl get svc web-service-loadbalancer -o yaml | grep -A5 "spec:"
 - The LB internally creates both a ClusterIP and a NodePort
 
 <a name="screenshot-04a"></a>
-### Screenshot A — EXTERNAL-IP = \<pending\> (tunnel not yet running)
+### Screenshots — LoadBalancer Status
 
-![Task 4 — LoadBalancer Pending](../screenshots/04-loadbalancer-pending.png)
+#### 1. EXTERNAL-IP = \<pending\> (Tunnel Pending)
+![Task 4 — LoadBalancer Pending](./SS/04-loadbalancer/04-loadbalancer-pending.jpg)
 
 <a name="screenshot-04"></a>
-### Screenshot B — EXTERNAL-IP Populated by Tunnel
-
-![Task 4 — LoadBalancer HTTP](../screenshots/04-loadbalancer-http.png)
+#### 2. EXTERNAL-IP Populated by Tunnel & HTTP Verification
+![Task 4 — LoadBalancer HTTP](./SS/04-loadbalancer/04-loadbalancer-http.jpg)
 
 ---
 
@@ -295,7 +298,6 @@ kubectl get svc external-database-service
 kubectl get endpoints external-database-service
 
 # DNS resolution proves CoreDNS returns a CNAME
-# (run inside the test pod)
 kubectl exec dns-test-client -- nslookup external-database-service.default.svc.cluster.local
 ```
 
@@ -304,17 +306,17 @@ kubectl exec dns-test-client -- nslookup external-database-service.default.svc.c
 - Service type is `ExternalName`, CLUSTER-IP is `<none>`, EXTERNAL-IP is the target FQDN
 - `kubectl get endpoints` shows error/not found (no pods to route to)
 - DNS lookup shows: `canonical name = krushnaS.me` (CNAME record)
-- Outbound traffic through the alias works (HTTP response from the external target)
+- Outbound traffic through the alias works
 
 <a name="screenshot-05a"></a>
-### Screenshot A — Service Created + No Endpoints + CNAME Proof
+### Screenshots — ExternalName Verification
 
-![Task 5 — ExternalName Service](../screenshots/05-externalname-svc.png)
+#### 1. Service Created + Empty Endpoints
+![Task 5 — ExternalName Service](./SS/05-externalname/05-extername-svc.jpg)
 
 <a name="screenshot-05"></a>
-### Screenshot B — Full CNAME Resolution + Outbound Traffic
-
-![Task 5 — ExternalName CNAME](../screenshots/05-externalname-cname.png)
+#### 2. CNAME Resolution & Outbound Traffic
+![Task 5 — ExternalName CNAME](./SS/05-externalname/05-external-cname.jpg)
 
 ---
 
@@ -325,7 +327,7 @@ kubectl exec dns-test-client -- nslookup external-database-service.default.svc.c
 A Headless Service is created by setting `clusterIP: None`. It tells Kubernetes: **"Do NOT assign a VIP. Just give me the direct IP addresses of all healthy backend pods via DNS."**
 
 When paired with a **StatefulSet**, each pod gets its own predictable DNS record:
-```
+```text
 <pod-name>.<service-name>.<namespace>.svc.cluster.local
 ```
 
@@ -333,7 +335,7 @@ When paired with a **StatefulSet**, each pod gets its own predictable DNS record
 
 | File | Purpose |
 |------|---------|
-| `05-headless/app-statefulset.yaml` | 3-replica StatefulSet (web-stateful-0/1/2) |
+| `05-headless/app-statefulset.yaml` | 3-replica StatefulSet (`web-stateful-0/1/2`) |
 | `05-headless/service.yaml` | Headless Service (`clusterIP: None`) |
 | `05-headless/client-pod.yaml` | DNS test client pod |
 
@@ -374,14 +376,14 @@ kubectl exec headless-dns-client -- curl -s http://web-service-headless:80
 - Curl returns `<title>Welcome to nginx!</title>`
 
 <a name="screenshot-06a"></a>
-### Screenshot A — StatefulSet Pods + Headless Service + DNS A Records
+### Screenshots — Headless Service Verification
 
-![Task 6 — Headless A Records](../screenshots/06-headless-a-records.png)
+#### 1. StatefulSet Pods + Headless Service + DNS A Records
+![Task 6 — Headless A Records](./SS/06-headless/06-headless-a-records.jpg)
 
 <a name="screenshot-06"></a>
-### Screenshot B — Ordinal Pod Addressing + Curl Test
-
-![Task 6 — Headless Ordinal DNS](../screenshots/06-headless-ordinal-dns.png)
+#### 2. Ordinal Pod Addressing + Curl Test
+![Task 6 — Headless Ordinal DNS](./SS/06-headless/06-headless-ordinal-dns.jpg)
 
 ---
 
@@ -443,14 +445,14 @@ kubectl get endpoints external-legacy-db
 - **After**: `ENDPOINTS = 192.168.1.150:3306` — cluster pods can now reach `VIP:3306 → 192.168.1.150:3306`
 
 <a name="screenshot-07a"></a>
-### Screenshot A — Service Created, Endpoints Empty
+### Screenshots — Manual Endpoints Binding
 
-![Task 7 — No Selector Empty Endpoints](../screenshots/07-noselector-empty-endpoints.png)
+#### 1. Service Created, Endpoints Empty
+![Task 7 — No Selector Empty Endpoints](./SS/07-manual/07-noselector-empty-endpoints.jpg)
 
 <a name="screenshot-07"></a>
-### Screenshot B — Manual Endpoints Bound to External IP
-
-![Task 7 — Manual Endpoints Bound](../screenshots/07-manual-endpoints-bound.png)
+#### 2. Manual Endpoints Bound to External IP
+![Task 7 — Manual Endpoints Bound](./SS/07-manual/07-manual-endpoints-bound.jpg)
 
 ---
 
@@ -465,7 +467,7 @@ Every pod in Kubernetes gets a `/etc/resolv.conf` injected by kubelet. This file
 
 ### The FQDN format
 
-```
+```text
 <service-name>.<namespace>.svc.cluster.local
 ```
 
@@ -485,9 +487,7 @@ kubectl get pods -n kube-system -l k8s-app=kube-dns -o wide
 # Show /etc/resolv.conf inside a pod (search list + ndots:5)
 kubectl exec curl-client -- cat /etc/resolv.conf
 
-# Short name works because search expands it:
-# curl http://web-service-clusterip
-# → CoreDNS tries: web-service-clusterip.default.svc.cluster.local → Found!
+# Short name works because search expands it
 kubectl exec curl-client -- nslookup web-service-clusterip
 
 # External DNS — CoreDNS forwards unknown domains to upstream
@@ -502,14 +502,14 @@ kubectl exec curl-client -- nslookup api.github.com
 - External query: `api.github.com` traverses search paths first, then resolves externally
 
 <a name="screenshot-08a"></a>
-### Screenshot A — CoreDNS Pods + resolv.conf + DNS Resolution
+### Screenshots — FQDN & CoreDNS Resolution
 
-![Task 8 — FQDN External DNS](../screenshots/08-fqdn-external-dns.png)
+#### 1. CoreDNS Pods & External DNS Resolution
+![Task 8 — FQDN External DNS](./SS/08-fqdn-coredns/08-fqdn-external-dns.jpg)
 
 <a name="screenshot-08"></a>
-### Screenshot B — resolv.conf + External DNS Traversal
-
-![Task 8 — resolv.conf CoreDNS](../screenshots/08-resolv-conf-coredns.png)
+#### 2. resolv.conf & CoreDNS Configuration
+![Task 8 — resolv.conf CoreDNS](./SS/08-fqdn-coredns/08-resolv-conf-coredns.jpg)
 
 ---
 
@@ -551,21 +551,21 @@ kubectl get pods -l app=web-headless --no-headers
 
 ### What to expect
 
-- **Before delete**: Deployment pods have random hashes (`-bg4pg`, `-tdxvm`, `-xfbkd`), StatefulSet pods have ordinals (`-0`, `-1`, `-2`)
+- **Before delete**: Deployment pods have random hashes (`-bg4pg`, `-tdxvm`), StatefulSet pods have ordinals (`-0`, `-1`, `-2`)
 - **After delete + respawn**:
-  - Deployment: a **brand-new** random hash appears (e.g., `-f4c69` replacing `-bg4pg`)
+  - Deployment: a **brand-new** random hash appears
   - StatefulSet: `web-stateful-0` comes back with the **exact same name**
 - This proves StatefulSet pods have **stable, persistent identity** — critical for stateful systems
 
 <a name="screenshot-09a"></a>
-### Screenshot A — Before Delete (both pod types side by side)
+### Screenshots — Deployment vs StatefulSet Identity
 
-![Task 9 — Identity Before](../screenshots/09-identity-before.png)
+#### 1. Before Delete (Side-by-Side Comparison)
+![Task 9 — Identity Before](./SS/09-identity/09-identity-before.jpg)
 
 <a name="screenshot-09"></a>
-### Screenshot B — After Delete (Deployment gets new hash, StatefulSet gets same name)
-
-![Task 9 — Identity After](../screenshots/09-identity-after.png)
+#### 2. After Delete (Deployment Gets New Hash, StatefulSet Retains Name)
+![Task 9 — Identity After](./SS/09-identity/09-identity-after.jpg)
 
 ---
 
@@ -609,16 +609,3 @@ kubectl delete -f 05-headless/app-statefulset.yaml
 # Task 7
 kubectl delete svc external-legacy-db
 ```
-
----
-
-## Lab Runner Script
-
-To generate all screenshot-ready output files automatically:
-
-```powershell
-cd K:\Classes\DEV-OPS\devops-heros\session-11-kubernetes-services
-.\run-lab.ps1
-```
-
-This creates 17 `.txt` files in `screenshots/` — open each one, take a screenshot, and you're done.

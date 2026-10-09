@@ -87,7 +87,7 @@ bash run-demo.sh
 
 ## Output (screenshot)
 
-![System information script running](screenshots/01-system-info-script.png)
+![System information script running](SS/System-info.png)
 
 The screenshot shows the two prompts, the report (date, hostname, user, disk usage), a `ps aux`
 preview, then `mkdir -p sysinfo-demo`, `touch`, and `ps aux > sysinfo-demo/running-processes.txt`

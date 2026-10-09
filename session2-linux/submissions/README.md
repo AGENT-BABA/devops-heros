@@ -73,6 +73,10 @@ ls -li original.txt soft_link.txt hard_link.txt
 
 *(Notice: `original.txt` and `hard_link.txt` share inode `12938102` and have link count `2`, whereas `soft_link.txt` has a distinct inode `12938103` pointing to `original.txt`)*
 
+#### Terminal Proof / Screenshot
+
+![Soft & Hard Link Terminal Demonstration](./SS/01-hard-soft-links.jpg)
+
 #### Deleting Links and Observing Behavior
 
 ```bash
@@ -163,6 +167,10 @@ Enter the new value, or press ENTER for the default
 Is the information correct? [Y/n] y
 ```
 
+#### Terminal Proof / Screenshot
+
+![adduser vs useradd Terminal Demonstration](./SS/adduser-vs-useradd.png)
+
 ---
 
 ## Task 3: `journalctl`
@@ -220,6 +228,10 @@ Sep 02 15:30:12 ubuntu-server sshd[3420]: Accepted publickey for ubuntu from 192
 Sep 02 15:30:12 ubuntu-server sshd[3420]: pam_unix(sshd:session): session opened for user ubuntu by (uid=0)
 ```
 
+#### Terminal Proof / Screenshot
+
+![journalctl Logs Terminal Demonstration](./SS/03-jounralctl.jpg)
+
 ---
 
 ## Task 4: Linux Command Cheat Sheet
@@ -248,3 +260,16 @@ Sep 02 15:30:12 ubuntu-server sshd[3420]: pam_unix(sshd:session): session opened
 | `journalctl` | View logs from systemd-journald | `journalctl -u docker -f` |
 | `curl` | Transfer data from or to a server via HTTP/S | `curl -I https://google.com` |
 | `netstat` / `ss` | Investigate network sockets and ports | `ss -tulpn` |
+
+---
+
+### Terminal Practice & Proof Screenshots
+
+#### 1. Cheat Sheet Commands Practice
+![Cheat Sheet Practice Terminal output](./SS/04-cheat-sheet-practice.jpg)
+
+#### 2. Cheat Sheet Demo Script (Part 1)
+![Cheat Sheet Part 1 Terminal output](./SS/04-showpart1.jpg)
+
+#### 3. Cheat Sheet Demo Script (Part 2)
+![Cheat Sheet Part 2 Terminal output](./SS/04-showpart2.jpg)

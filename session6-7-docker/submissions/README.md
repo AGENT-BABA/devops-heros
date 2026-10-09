@@ -70,6 +70,9 @@ EXPOSE 3000
 CMD ["npm", "start"]
 ```
 
+### Web Verification Screenshot
+![Node.js Web App Verification](./SS/web-nodejs.png)
+
 ## 2. Python App — `python-app/`
 
 ```python
@@ -94,6 +97,9 @@ COPY app.py ./
 EXPOSE 5000
 CMD ["python", "app.py"]
 ```
+
+### Web Verification Screenshot
+![Python Web App Verification](./SS/web-python.png)
 
 ## 3. Java App — `Java-App/`
 
@@ -131,6 +137,9 @@ EXPOSE 8080
 CMD ["java", "Main"]
 ```
 
+### Web Verification Screenshot
+![Java Web App Verification](./SS/web-java.png)
+
 ## 4. Apache App — `Apache-App/`
 
 ```dockerfile
@@ -140,6 +149,9 @@ EXPOSE 80
 ```
 
 `index.html` contains `<h1>Hello World from Apache!</h1>`.
+
+### Web Verification Screenshot
+![Apache Web App Verification](./SS/web-apache.png)
 
 ## 5. React App — `React-App/`
 
@@ -161,6 +173,9 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
+### Web Verification Screenshot
+![React Web App Verification](./SS/web-react.png)
+
 ## 6. Nginx App — `nginx-App/`
 
 ```dockerfile
@@ -168,6 +183,9 @@ FROM nginx:alpine
 COPY index.html /usr/share/nginx/html/index.html
 EXPOSE 80
 ```
+
+### Web Verification Screenshot
+![Nginx Web App Verification](./SS/web-nginx.png)
 
 ## 7. Multi-Stage Build — `multi-stage-dockerfile/`
 
@@ -189,6 +207,9 @@ EXPOSE 8080
 CMD ["node", "server.js"]
 ```
 
+### Terminal Demonstration Screenshot
+![Multi-Stage Build Demonstration](./SS/Show-multistage.jpg)
+
 ---
 
 ## Verification Scripts
@@ -203,6 +224,9 @@ bash submissions/show-multistage.sh
 # Run 3 app types (Node.js, Python, Java)
 bash submissions/show-three-apps.sh
 ```
+
+### Three Applications Multi-Stage Deployment Proof
+![Three Applications Multi-Stage Deployment](./SS/Sow-three-apps-multistage.jpg)
 
 ## Cleanup Commands
 
