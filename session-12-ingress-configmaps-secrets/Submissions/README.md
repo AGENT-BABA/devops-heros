@@ -43,7 +43,7 @@ kubectl get configmap yatri-app-config -o jsonpath='{.data.ENVIRONMENT}'
 
 ### Terminal Proof / Screenshot
 
-![Part 1 — ConfigMap Verification](./SS/01-configmaps.jpg)
+![Part 1 — ConfigMap Verification](./SS/01-configmaps.png)
 
 ---
 
@@ -149,7 +149,7 @@ kubectl get svc yatri-frontend-service yatri-backend-service
 
 ### Terminal Proof / Screenshot
 
-![Part 4 — Frontend & ClusterIP Services](./SS/04-frontend-services.jpg)
+![Part 4 — Frontend & ClusterIP Services](./SS/04-frontend-services.png)
 
 ---
 

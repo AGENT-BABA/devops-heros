@@ -29,7 +29,7 @@ Kustomize Version: v5.8.1
 
 **Screenshot:**
 
-![Minikube and Kubectl Version](./version-check.jpg)
+![Minikube and Kubectl Version](./SS/version-check.jpg)
 
 ---
 
@@ -58,7 +58,7 @@ minikube start
 
 **Screenshot:**
 
-![Minikube Start](./minikube-start.jpg)
+![Minikube Start](./SS/minikube-start.jpg)
 
 ---
 
@@ -89,7 +89,7 @@ minikube   Ready    control-plane   10d   v1.35.1   192.168.49.2   <none>       
 
 **Screenshot:**
 
-![Minikube Status and Nodes](./minikube-status.jpg)
+![Minikube Status and Nodes](./SS/minikube-status.jpg)
 
 ---
 
@@ -121,7 +121,7 @@ kubeconfig: Stopped
 
 **Screenshot:**
 
-![Minikube Stop](./minikube-stop.jpg)
+![Minikube Stop](./SS/minikube-stop.jpg)
 
 ---
 
